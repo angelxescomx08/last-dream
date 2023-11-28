@@ -7,7 +7,8 @@ class Hero:
         self.max_health = 100
         self.speed = 5
         self.position = [0, 0]
-        self.hero_sprite = None
+        self.hero_sprite_right = None
+        self.hero_sprite_left = None
         self.screen = screen
         self.current_tick = 0
         self.sprite_width, self.sprite_height = 64,64
@@ -16,7 +17,7 @@ class Hero:
         self.current_frame = 0
         self.columns = 10  # Número de columnas en la hoja de sprites
         self.delay = 50
-
+        self.direction_left = False
         self.load_sprites(current_directory)
     
     def load_sprites(self, current_directory: str) -> None:
@@ -29,8 +30,12 @@ class Hero:
             raise FileNotFoundError(
                 f"No se encontró el archivo: {sprite_sheet_path}"
             )
-        self.hero_sprite = pygame.image.load(sprite_sheet_path).convert_alpha()
-        self.hero_sprite = pygame.transform.scale2x(self.hero_sprite)
+        self.hero_sprite_right = pygame.image.load(sprite_sheet_path).convert_alpha()
+        self.hero_sprite_right = pygame.transform.scale2x(self.hero_sprite_right)
+
+        self.hero_sprite_left = pygame.transform.flip(
+            self.hero_sprite_right, True, False
+        )
         
 
     def animate(self) -> None:
@@ -43,7 +48,7 @@ class Hero:
 
         self.x = self.current_frame * self.sprite_width
         self.screen.blit(
-            self.hero_sprite, 
+            self.hero_sprite_right if not self.direction_left else self.hero_sprite_left, 
             self.position, 
             (self.x, self.y, self.sprite_width, self.sprite_height)
         )
@@ -52,8 +57,10 @@ class Hero:
         keys = pygame.key.get_pressed()
         if keys[pygame.K_LEFT]:
             self.position[0] -= self.speed
+            self.direction_left = True
         if keys[pygame.K_RIGHT]:
             self.position[0] += self.speed
+            self.direction_left = False
         if keys[pygame.K_UP]:
             self.position[1] -= self.speed
         if keys[pygame.K_DOWN]:
