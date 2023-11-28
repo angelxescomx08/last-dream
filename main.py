@@ -16,10 +16,6 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Crea un reloj para controlar el tiempo
 clock = pygame.time.Clock()
 
-# Configurar un temporizador para avanzar al siguiente cuadro
-# Cambia el valor para ajustar la velocidad de la animación
-pygame.time.set_timer(pygame.USEREVENT, 100)  
-
 #Crea el heroe
 hero = Hero(screen,current_dir)
 
@@ -27,17 +23,17 @@ hero = Hero(screen,current_dir)
 
 #Crea un loop para pygame
 while True:
-    
     #Obtiene los eventos de pygame
     for event in pygame.event.get():
         #Si se presiona el boton de cerrar la ventana, se cierra el programa
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.USEREVENT:
-            screen.fill((0, 0, 0))
-            hero.animate()
 
+    hero.move()
+
+    screen.fill((0, 0, 0))
+    hero.animate()
     # Actualiza la pantalla
     pygame.display.flip()
 
