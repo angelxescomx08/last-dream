@@ -1,6 +1,7 @@
 import pygame
 import sys
 from src.hero.hero import Hero
+from src.card.card import Card
 import os
 
 #Inicializa pygame
@@ -19,7 +20,7 @@ clock = pygame.time.Clock()
 #Crea el heroe
 hero = Hero(screen,current_dir)
 
-
+card = Card()
 
 #Crea un loop para pygame
 while True:
