@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 #Crea el heroe
 hero = Hero(screen,current_dir)
 
-card = Card()
+card_1 = Card("assets/card/assets_cards.png", 1, lambda: print("Hola"), current_dir)
 
 #Crea un loop para pygame
 while True:
