@@ -6,8 +6,10 @@ from card.card import Card
 import pygame
 
 class Hand:
+
     cards: List[Card]
     screen: pygame.Surface
+
     def __init__(self, screen):
         self.cards = []
         self.screen = screen
@@ -17,6 +19,7 @@ class Hand:
 
     def draw(self):
         for i, card in enumerate(self.cards):
-            card.sub_surface.get_rect().x = i * 100
-            card.sub_surface.get_rect().y = 500
-            self.screen.blit(card.draw(), card.sub_surface.get_rect())
+            card = card.draw()
+            card.get_rect().x = i * 300
+            card.get_rect().y = i * 500
+            self.screen.blit(card, card.get_rect())
