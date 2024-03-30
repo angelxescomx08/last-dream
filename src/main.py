@@ -1,7 +1,7 @@
 import pygame
 import sys
-from src.hero.hero import Hero
-from src.card.card import Card
+from hero.hero import Hero
+from card.card import Card
 import os
 
 #Inicializa pygame
@@ -17,10 +17,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # Crea un reloj para controlar el tiempo
 clock = pygame.time.Clock()
 
-#Crea el heroe
-hero = Hero(screen,current_dir)
-
-card_1 = Card("assets/card/assets_cards.png", 1, lambda: print("Hola"), current_dir)
+card = Card("assets/card/assets_cards.png", 5, None)
 
 #Crea un loop para pygame
 while True:
@@ -31,10 +28,9 @@ while True:
             pygame.quit()
             sys.exit()
 
-    hero.move()
-
     screen.fill((0, 0, 0))
-    hero.animate()
+    screen.blit(card.draw(), (0, 0))
+
     # Actualiza la pantalla
     pygame.display.flip()
 
