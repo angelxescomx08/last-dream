@@ -3,6 +3,7 @@ import sys
 from hero.hero import Hero
 from card.card import Card
 import os
+from hand.hand import Hand
 
 #Inicializa pygame
 pygame.init()
@@ -19,6 +20,9 @@ clock = pygame.time.Clock()
 
 card = Card("assets/card/assets_cards.png", 5, None)
 
+hand = Hand(screen)
+hand.add_card(card)
+
 #Crea un loop para pygame
 while True:
     #Obtiene los eventos de pygame
@@ -29,7 +33,8 @@ while True:
             sys.exit()
 
     screen.fill((0, 0, 0))
-    screen.blit(card.draw(), (0, 0))
+
+    hand.draw()
 
     # Actualiza la pantalla
     pygame.display.flip()

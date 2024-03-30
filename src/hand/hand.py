@@ -1,17 +1,22 @@
 #crea una clase hand que contiene una lista de cartas
 # un metodo para dibujar las cartas
 
+from typing import List
+from card.card import Card
+import pygame
+
 class Hand:
-    def __init__(self, screen, current_dir):
+    cards: List[Card]
+    screen: pygame.Surface
+    def __init__(self, screen):
         self.cards = []
         self.screen = screen
-        self.current_dir = current_dir
 
     def add_card(self, card):
         self.cards.append(card)
 
     def draw(self):
         for i, card in enumerate(self.cards):
-            card.rect.x = i * 100
-            card.rect.y = 500
-            self.screen.blit(card.image, card.rect)
+            card.sub_surface.get_rect().x = i * 100
+            card.sub_surface.get_rect().y = 500
+            self.screen.blit(card.draw(), card.sub_surface.get_rect())
