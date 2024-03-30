@@ -36,5 +36,13 @@ class Card:
 
     def draw(self):
         #pinta la carta en la pantalla usando el fondo de la carta
+        self.hover()
         return self.sub_surface
+    
+    def hover(self):
+        #el cursor cambia cuando esta sobre la carta
+        if self.sub_surface.get_rect().collidepoint(pygame.mouse.get_pos()):
+            pygame.mouse.set_cursor(*pygame.cursors.tri_left)
+        else:
+            pygame.mouse.set_cursor(*pygame.cursors.arrow)
         
