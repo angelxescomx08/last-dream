@@ -19,7 +19,8 @@ class Hand:
 
     def draw(self):
         for i, card in enumerate(self.cards):
-            card = card.draw()
-            card.get_rect().x = i * 300
-            card.get_rect().y = i * 500
-            self.screen.blit(card, card.get_rect())
+            card_surface = card.draw()  
+            card_rect = card_surface.get_rect()
+            card_rect.x = i * 100  
+            card_rect.y = 500
+            self.screen.blit(card_surface, card_rect)

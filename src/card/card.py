@@ -7,12 +7,11 @@ class Card:
     image: str
     mana: int
     effect: Callable
-    position: tuple
     sprite_sheet_path: str
     surface: pygame.Surface
     sub_surface: pygame.Surface
 
-    def __init__(self, image: str, mana: int, effect: Callable, position: tuple = (0, 0)):
+    def __init__(self, image: str, mana: int, effect: Callable):
         self.image = image
         self.mana = mana
         self.effect = effect
@@ -37,6 +36,7 @@ class Card:
     def draw(self):
         #pinta la carta en la pantalla usando el fondo de la carta
         self.hover()
+        self.drag_and_drop()
         return self.sub_surface
     
     def hover(self):
@@ -45,4 +45,11 @@ class Card:
             pygame.mouse.set_cursor(*pygame.cursors.tri_left)
         else:
             pygame.mouse.set_cursor(*pygame.cursors.arrow)
+    
+    def drag_and_drop(self):
+        #mueve la carta por la pantalla
+        if self.sub_surface.get_rect().collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+            self.sub_surface.get_rect().x = pygame.mouse.get_pos()[0]
+            self.sub_surface.get_rect().y = pygame.mouse.get_pos()[1]
+
         
