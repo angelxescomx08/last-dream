@@ -18,5 +18,7 @@ class Hand:
         self.cards.append(card)
 
     def draw(self):
+        if len(self.cards) == 0:
+            return
         for card in self.cards:
             card.draw(self.screen)

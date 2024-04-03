@@ -1,7 +1,6 @@
-from typing import Callable
+from typing import Callable, Tuple
 from constants.paths_constants import PATH_CARD_BACKGROUNDS
 import pygame
-from typing import List
 
 class Card:
     image: str
@@ -11,6 +10,9 @@ class Card:
     width: int = 100
     height: int = 150
 
+    is_dragging: bool = False
+    is_hovering: bool = False
+
     def __init__(self, image: str, mana: int, effect: Callable):
         self.image = image
         self.mana = mana
@@ -19,8 +21,9 @@ class Card:
 
     def draw(self, screen: pygame.Surface):
         color_rgb = pygame.Color("#ffffff")
-        self.hover()
-        position = self.drag_and_drop()
+        self.detect_hover()
+        self.detect_drag()
+        position = self.drag()
         pygame.draw.rect(
             self.surface, 
             color_rgb, 
@@ -28,22 +31,26 @@ class Card:
         )
         screen.blit(self.surface, position)
         
-    
-    def hover(self):
+
+    def detect_hover(self):
         #el cursor cambia cuando esta sobre la carta
         if self.surface.get_rect().collidepoint(pygame.mouse.get_pos()):
-            self.height *= 1.2 
-            self.width *= 1.2
-            pygame.mouse.set_cursor(*pygame.cursors.tri_left)
+            self.is_hovering = True
         else:
-            self.height /= .8
-            self.width /= .8
-            pygame.mouse.set_cursor(*pygame.cursors.arrow)
+            self.is_hovering = False
     
-    def drag_and_drop(self) -> List[int]:
+    def detect_drag(self):
+        #detecta si el mouse esta sobre la carta
+        if not pygame.mouse.get_pressed()[0]:
+            self.is_dragging = False
+        if self.is_hovering and pygame.mouse.get_pressed()[0]:
+            self.is_dragging = True
+
+    def drag(self) -> Tuple[int, int]:
         # Mueve la carta por la pantalla
-        if self.surface.get_rect().collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-            return pygame.mouse.get_pos()
+        if self.is_dragging:
+            x, y = pygame.mouse.get_pos()
+            return (x - self.width // 2, y - self.height // 2)
         else:
             return [0, 0]
 
