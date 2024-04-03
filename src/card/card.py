@@ -20,30 +20,36 @@ class Card:
         self.surface = pygame.Surface((self.width, self.height)) 
 
     def draw(self, screen: pygame.Surface):
-        color_rgb = pygame.Color("#ffffff")
         self.detect_hover()
         self.detect_drag()
+        color = self.hover()
         position = self.drag()
         pygame.draw.rect(
             self.surface, 
-            color_rgb, 
+            color, 
             (0, 0, self.width, self.height)
         )
         screen.blit(self.surface, position)
-        
 
     def detect_hover(self):
-        #el cursor cambia cuando esta sobre la carta
+        # el cursor cambia cuando está sobre la carta
         if self.surface.get_rect().collidepoint(pygame.mouse.get_pos()):
             self.is_hovering = True
         else:
             self.is_hovering = False
     
+    def hover(self):
+        color = pygame.Color("#ffffff")
+        if self.is_hovering and not self.is_dragging:  # Solo cambia el color si no está siendo arrastrada
+            color = pygame.Color("#ff0000")
+        return color
+            
+    
     def detect_drag(self):
-        #detecta si el mouse esta sobre la carta
+        # detecta si el mouse está sobre la carta
         if not pygame.mouse.get_pressed()[0]:
             self.is_dragging = False
-        if self.is_hovering and pygame.mouse.get_pressed()[0]:
+        elif self.is_hovering and pygame.mouse.get_pressed()[0]:
             self.is_dragging = True
 
     def drag(self) -> Tuple[int, int]:
@@ -53,5 +59,3 @@ class Card:
             return (x - self.width // 2, y - self.height // 2)
         else:
             return [0, 0]
-
-        
