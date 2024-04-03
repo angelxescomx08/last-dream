@@ -1,6 +1,7 @@
 from typing import Callable
 from constants.paths_constants import PATH_CARD_BACKGROUNDS
 import pygame
+from typing import List
 
 class Card:
     image: str
@@ -18,26 +19,32 @@ class Card:
 
     def draw(self, screen: pygame.Surface):
         color_rgb = pygame.Color("#ffffff")
+        self.hover()
+        position = self.drag_and_drop()
         pygame.draw.rect(
             self.surface, 
             color_rgb, 
             (0, 0, self.width, self.height)
         )
-        screen.blit(self.surface, (0, 0))
+        screen.blit(self.surface, position)
         
     
     def hover(self):
         #el cursor cambia cuando esta sobre la carta
-        if self.sub_surface.get_rect().collidepoint(pygame.mouse.get_pos()):
+        if self.surface.get_rect().collidepoint(pygame.mouse.get_pos()):
+            self.height *= 1.2 
+            self.width *= 1.2
             pygame.mouse.set_cursor(*pygame.cursors.tri_left)
         else:
+            self.height /= .8
+            self.width /= .8
             pygame.mouse.set_cursor(*pygame.cursors.arrow)
     
-    def drag_and_drop(self):
+    def drag_and_drop(self) -> List[int]:
         # Mueve la carta por la pantalla
-        if self.sub_surface.get_rect().collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
-            # Actualiza la posición de la superficie con respecto a la posición del ratón
-            self.sub_surface.x = pygame.mouse.get_pos()[0] - self.offset_x
-            self.sub_surface.y = pygame.mouse.get_pos()[1] - self.offset_y
+        if self.surface.get_rect().collidepoint(pygame.mouse.get_pos()) and pygame.mouse.get_pressed()[0]:
+            return pygame.mouse.get_pos()
+        else:
+            return [0, 0]
 
         

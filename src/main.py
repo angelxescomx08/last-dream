@@ -19,13 +19,13 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 clock = pygame.time.Clock()
 
 card_1 = Card("assets/card/assets_cards.png", 5, None)
-card_2 = Card("assets/card/assets_cards.png", 5, None)
-card_3 = Card("assets/card/assets_cards.png", 5, None)
+#card_2 = Card("assets/card/assets_cards.png", 5, None)
+#card_3 = Card("assets/card/assets_cards.png", 5, None)
 
 hand = Hand(screen)
 hand.add_card(card_1)
-hand.add_card(card_2)
-hand.add_card(card_3)
+#hand.add_card(card_2)
+#hand.add_card(card_3)
 
 #Crea un loop para pygame
 while True:
