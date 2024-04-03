@@ -1,5 +1,5 @@
 from typing import Callable, Tuple
-from constants.paths_constants import PATH_CARD_BACKGROUNDS
+from utils.parabola.parabola import Parabola
 import pygame
 
 class Card:
@@ -23,13 +23,13 @@ class Card:
         self.detect_hover()
         self.detect_drag()
         color = self.hover()
-        position = self.drag()
         pygame.draw.rect(
             self.surface, 
             color, 
             (0, 0, self.width, self.height)
         )
-        screen.blit(self.surface, position)
+        screen.blit(self.surface, (0, 0))
+        self.drag(screen)
 
     def detect_hover(self):
         # el cursor cambia cuando está sobre la carta
@@ -42,8 +42,7 @@ class Card:
         color = pygame.Color("#ffffff")
         if self.is_hovering and not self.is_dragging:  # Solo cambia el color si no está siendo arrastrada
             color = pygame.Color("#ff0000")
-        return color
-            
+        return color   
     
     def detect_drag(self):
         # detecta si el mouse está sobre la carta
@@ -52,10 +51,14 @@ class Card:
         elif self.is_hovering and pygame.mouse.get_pressed()[0]:
             self.is_dragging = True
 
-    def drag(self) -> Tuple[int, int]:
-        # Mueve la carta por la pantalla
+    def drag(self, screen: pygame.Surface):
         if self.is_dragging:
-            x, y = pygame.mouse.get_pos()
-            return (x - self.width // 2, y - self.height // 2)
-        else:
-            return [0, 0]
+            a = self.surface.get_rect().center
+            b = pygame.mouse.get_pos()
+            Parabola.draw_parabola(
+                screen, 
+                a, 
+                b, 
+                pygame.Color("#ff0000"), 
+                5_000_000
+            )
