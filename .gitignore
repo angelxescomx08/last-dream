@@ -1,0 +1,33 @@
+# Entorno virtual
+venv/
+env/
+ENV/
+
+# Archivos de configuración de IDE
+.idea/
+.vscode/
+
+# Archivos compilados de Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+
+# Archivos de logs
+*.log
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de testeo
+coverage/
+.tox/
+
+# Archivos generados por herramientas de Python
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Archivos de configuración de entorno
+.env
