@@ -1,0 +1,28 @@
+# Licencia Privada
+
+## Derechos Reservados
+
+Todos los derechos sobre este software están reservados. Este software es propiedad exclusiva del autor y está destinado únicamente para uso interno y personal.
+
+## Uso Permitido
+
+- El software puede ser utilizado únicamente por el autor y sus asociados autorizados.
+- Está prohibido distribuir, copiar, modificar, descompilar, o realizar ingeniería inversa sobre el software sin el consentimiento expreso del autor.
+
+## Prohibiciones
+
+- No se permite la redistribución del software en ninguna forma.
+- No se permite la copia, venta, o transferencia del software a terceros.
+- No se permite la creación de trabajos derivados basados en este software.
+
+## Garantía
+
+Este software se proporciona "tal cual" sin garantía de ningún tipo, expresa o implícita, incluyendo, pero no limitado a, las garantías implícitas de comerciabilidad o idoneidad para un propósito particular.
+
+## Contacto
+
+Para cualquier pregunta o solicitud relacionada con el uso de este software, por favor contacta al autor en jose.angel.hdz.rda@gmail.com.
+
+---
+
+**Autor:** José Ángel Hernández Radilla
