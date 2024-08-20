@@ -1,12 +1,13 @@
 import pygame
 
 class Game:
+  pygame
 
   def __init__(self):
     self.pygame = pygame
     self.pygame.init()
     self.screen = self.pygame.display.set_mode((800, 600))
-    self.pygame.display.set_caption("My Game")
+    self.pygame.display.set_caption("Last dream")
     self.clock = self.pygame.time.Clock()
     self.running = True
 
