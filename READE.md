@@ -46,6 +46,12 @@ Una vez instaladas las dependencias, puedes ejecutar el juego con el siguiente c
 python main.py
 ```
 
+Se puede usar nodemon para reiniciar la app automáticamente cada vez que se guarden cambios en los archivos.
+
+```bash
+nodemon python main.py
+```
+
 # Estructura del proyecto
 
 ```
