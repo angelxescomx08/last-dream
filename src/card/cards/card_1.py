@@ -1,6 +1,8 @@
+import pygame
 from src.card.card_base import CardBase
 
 class AttackCard(CardBase):
+  rect: pygame.Rect = pygame.Rect(0, 0, 100, 150)
   is_hovered: bool = False
   is_dragged: bool = False
   position: tuple[int,int] = (0, 0)
@@ -8,8 +10,9 @@ class AttackCard(CardBase):
   cost: int = 1
   description: str = "Deal 5 damage"
 
-  def __init__(self):
+  def __init__(self, screen: pygame.Surface):
     super().__init__()
+    self.screen = screen
 
   def effect(self):
     pass
@@ -18,10 +21,11 @@ class AttackCard(CardBase):
     pass
 
   def hover(self):
-    pass
+    if self.is_hovered:
+      self.position = pygame.mouse.get_pos()
 
   def drag(self):
     pass
 
   def draw(self):
-    pass
+    pygame.draw.rect(self.screen, (255, 0, 0), self.rect)

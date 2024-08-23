@@ -1,8 +1,6 @@
 import pygame
 from src.card.cards.card_1 import AttackCard
 
-card_1 = AttackCard()
-
 class Game:
   pygame
   screen: pygame.Surface
@@ -18,6 +16,7 @@ class Game:
     self.running = True
 
   def run(self):
+    card_1 = AttackCard(self.screen)
     while self.running:
       self.clock.tick(60)
       for event in self.pygame.event.get():

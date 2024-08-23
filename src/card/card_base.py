@@ -1,7 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import Callable
+from pygame import Rect, Surface
 
 class CardBase(ABC):
+
+  @property
+  @abstractmethod
+  def rect(self) -> Rect:
+    pass
 
   @property
   @abstractmethod
