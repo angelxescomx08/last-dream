@@ -5,6 +5,21 @@ class CardBase(ABC):
 
   @property
   @abstractmethod
+  def is_hovered(self) -> bool:
+    pass
+
+  @property
+  @abstractmethod
+  def is_dragged(self) -> bool:
+    pass
+
+  @property
+  @abstractmethod
+  def position(self) -> tuple[int, int]:
+    pass
+
+  @property
+  @abstractmethod
   def name(self) -> str:
     pass
 
@@ -24,5 +39,17 @@ class CardBase(ABC):
     pass
 
   @abstractmethod
-  def activate_effect(self) -> None:
+  def play(self) -> None:
+    pass
+
+  @abstractmethod
+  def hover(self) -> None:
+    pass
+
+  @abstractmethod
+  def drag(self) -> None:
+    pass
+
+  @abstractmethod
+  def draw(self) -> None:
     pass

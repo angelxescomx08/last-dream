@@ -1,7 +1,13 @@
 import pygame
+from src.card.cards.card_1 import AttackCard
+
+card_1 = AttackCard()
 
 class Game:
   pygame
+  screen: pygame.Surface
+  clock: pygame.time.Clock
+  running: bool
 
   def __init__(self):
     self.pygame = pygame
@@ -18,5 +24,6 @@ class Game:
         if event.type == self.pygame.QUIT:
           self.running = False
       self.pygame.display.update()
+      card_1.draw()
     self.pygame.quit()
     quit()
