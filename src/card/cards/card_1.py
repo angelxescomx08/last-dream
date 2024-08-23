@@ -21,11 +21,16 @@ class AttackCard(CardBase):
     pass
 
   def hover(self):
-    if self.is_hovered:
-      self.position = pygame.mouse.get_pos()
+    mouse_pos = pygame.mouse.get_pos()
+    if self.rect.collidepoint(mouse_pos):
+      self.is_hovered = True
+    else:
+      self.is_hovered = False
 
   def drag(self):
     pass
 
   def draw(self):
-    pygame.draw.rect(self.screen, (255, 0, 0), self.rect)
+    self.hover()
+    color = (255, 255, 255) if not self.is_hovered else (200, 200, 200)
+    pygame.draw.rect(self.screen, color, self.rect)
