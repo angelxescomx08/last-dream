@@ -7,11 +7,8 @@ class Hand(HandBase):
   cards: List[CardBase]
 
   def __init__(self, cards: List[CardBase] = []):
+    super().__init__()
     self.cards = cards
-
-  @property
-  def cards(self) -> List[CardBase]:
-    return self._cards
 
   def add_card(self, card: CardBase):
     self.cards.append(card)
