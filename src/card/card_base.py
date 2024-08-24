@@ -54,7 +54,11 @@ class CardBase(ABC):
   
   def drag(self) -> None:
     if self.is_dragged:
-      self.position = mouse.get_pos()
+      center_pos = (
+        mouse.get_pos()[0] - self.rect.width // 2, 
+        mouse.get_pos()[1] - self.rect.height // 2
+      )
+      self.position = center_pos
       
     if self.is_dragged and not mouse.get_pressed()[0]:
       self.is_dragged = False
