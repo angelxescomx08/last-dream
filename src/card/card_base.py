@@ -58,6 +58,7 @@ class CardBase(ABC):
         mouse.get_pos()[0] - self.rect.width // 2, 
         mouse.get_pos()[1] - self.rect.height // 2
       )
+      mouse.set_cursor(SYSTEM_CURSOR_HAND)
       self.position = center_pos
       
     if self.is_dragged and not mouse.get_pressed()[0]:
@@ -72,14 +73,15 @@ class CardBase(ABC):
       self.is_hovered = True
     else:
       self.is_hovered = False
+    if self.is_hovered:
+      mouse.set_cursor(SYSTEM_CURSOR_HAND)
+    else:
+      mouse.set_cursor(SYSTEM_CURSOR_ARROW)
       
   def draw(self, screen: Surface):
     self.hover()
     self.drag()
-    if self.is_dragged:
-      mouse.set_cursor(SYSTEM_CURSOR_HAND)
-    else:
-      mouse.set_cursor(SYSTEM_CURSOR_ARROW)
+    
     color = (255, 255, 255) if not self.is_hovered else (200, 200, 200)
 
     #sustitute position with self.position
