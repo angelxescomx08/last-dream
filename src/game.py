@@ -23,6 +23,7 @@ class Game:
         if event.type == self.pygame.QUIT:
           self.running = False
       self.pygame.display.update()
-      card_1.draw()
+      self.screen.fill((0, 0, 0))
+      card_1.draw(self.screen)
     self.pygame.quit()
     quit()

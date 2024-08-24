@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Callable
-from pygame import Rect, Surface
+from pygame import Rect, Surface, mouse, draw
 
 class CardBase(ABC):
 
@@ -49,13 +49,32 @@ class CardBase(ABC):
     pass
 
   @abstractmethod
-  def hover(self) -> None:
-    pass
-
-  @abstractmethod
-  def drag(self) -> None:
-    pass
-
-  @abstractmethod
   def draw(self) -> None:
     pass
+  
+  def drag(self) -> None:
+    if self.is_dragged:
+      self.position = mouse.get_pos()
+      
+    if self.is_dragged and not mouse.get_pressed()[0]:
+      self.is_dragged = False
+      
+    if mouse.get_pressed()[0] and self.rect.collidepoint(mouse.get_pos()):
+      self.is_dragged = True
+
+  def hover(self):
+    mouse_pos = mouse.get_pos()
+    if self.rect.collidepoint(mouse_pos):
+      self.is_hovered = True
+    else:
+      self.is_hovered = False
+      
+  def draw(self, screen: Surface):
+    self.hover()
+    self.drag()
+    color = (255, 255, 255) if not self.is_hovered else (200, 200, 200)
+
+    #sustitute position with self.position
+    self.rect.topleft = self.position
+    
+    draw.rect(screen, color, self.rect)
