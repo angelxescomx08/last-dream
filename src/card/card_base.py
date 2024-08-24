@@ -47,10 +47,6 @@ class CardBase(ABC):
   @abstractmethod
   def play(self) -> None:
     pass
-
-  @abstractmethod
-  def draw(self) -> None:
-    pass
   
   def drag(self) -> None:
     if self.is_dragged:

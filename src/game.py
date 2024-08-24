@@ -1,4 +1,5 @@
 import pygame
+from src.hand.hand import Hand
 from src.card.cards.card_1 import AttackCard
 
 class Game:
@@ -17,6 +18,8 @@ class Game:
 
   def run(self):
     card_1 = AttackCard(self.screen)
+    card_2 = AttackCard(self.screen)
+    hand = Hand([card_1, card_2])
     while self.running:
       self.clock.tick(60)
       for event in self.pygame.event.get():
@@ -24,6 +27,6 @@ class Game:
           self.running = False
       self.pygame.display.update()
       self.screen.fill((0, 0, 0))
-      card_1.draw(self.screen)
+      hand.draw(self.screen)
     self.pygame.quit()
     quit()
