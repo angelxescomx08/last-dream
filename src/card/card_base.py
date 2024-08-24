@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Callable
-from pygame import Rect, Surface, mouse, draw
+from pygame import SYSTEM_CURSOR_ARROW, SYSTEM_CURSOR_HAND, Rect, Surface, mouse, draw
 
 class CardBase(ABC):
 
@@ -76,6 +76,10 @@ class CardBase(ABC):
   def draw(self, screen: Surface):
     self.hover()
     self.drag()
+    if self.is_dragged:
+      mouse.set_cursor(SYSTEM_CURSOR_HAND)
+    else:
+      mouse.set_cursor(SYSTEM_CURSOR_ARROW)
     color = (255, 255, 255) if not self.is_hovered else (200, 200, 200)
 
     #sustitute position with self.position
