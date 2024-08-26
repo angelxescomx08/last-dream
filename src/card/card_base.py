@@ -47,6 +47,9 @@ class CardBase(ABC):
   @abstractmethod
   def play(self) -> None:
     pass
+
+  def set_position(self, position: tuple[int, int]) -> None:
+    self.position = position
   
   def drag(self) -> None:
     if mouse.get_pressed()[0] and self.rect.collidepoint(mouse.get_pos()):
