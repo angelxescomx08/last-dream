@@ -4,7 +4,7 @@ from typing import List
 
 class Hand(HandBase):
 
-  cards: List[CardBase]
+  cards: List[CardBase] = []
 
   def __init__(self, cards: List[CardBase] = []):
     super().__init__()
