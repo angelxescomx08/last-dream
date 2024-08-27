@@ -54,6 +54,8 @@ class CardBase(ABC):
   def drag(self) -> None:
     if mouse.get_pressed()[0] and self.rect.collidepoint(mouse.get_pos()):
       self.is_dragged = True
+
+    if self.is_dragged:
       center_pos = (
         mouse.get_pos()[0] - self.rect.width // 2, 
         mouse.get_pos()[1] - self.rect.height // 2

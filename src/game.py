@@ -17,9 +17,7 @@ class Game:
     self.running = True
 
   def run(self):
-    card_1 = AttackCard(self.screen)
-    card_2 = AttackCard(self.screen)
-    hand = Hand([card_1, card_2])
+    hand = Hand([AttackCard(self.screen), AttackCard(self.screen)])
     while self.running:
       self.clock.tick(60)
       for event in self.pygame.event.get():
