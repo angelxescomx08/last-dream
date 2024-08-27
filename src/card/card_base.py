@@ -62,11 +62,13 @@ class CardBase(ABC):
   def hover(self):
     mouse_pos = mouse.get_pos()
     if self.rect.collidepoint(mouse_pos):
-      self.is_hovered = True
-      mouse.set_cursor(SYSTEM_CURSOR_HAND)
+      if not self.is_hovered:
+        self.is_hovered = True
+        mouse.set_cursor(SYSTEM_CURSOR_HAND)
     else:
-      self.is_hovered = False
-      mouse.set_cursor(SYSTEM_CURSOR_ARROW)
+      if self.is_hovered:
+        self.is_hovered = False
+        mouse.set_cursor(SYSTEM_CURSOR_ARROW)
 
   def draw(self, screen: Surface):
     self.hover()
