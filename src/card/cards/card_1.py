@@ -2,6 +2,7 @@ import pygame
 from src.card.card_base import CardBase
 
 class AttackCard(CardBase):
+  screen: pygame.Surface
   rect: pygame.Rect = pygame.Rect(0, 0, 100, 150)
   is_hovered: bool = False
   is_dragged: bool = False
@@ -13,6 +14,13 @@ class AttackCard(CardBase):
   def __init__(self, screen: pygame.Surface):
     super().__init__()
     self.screen = screen
+    self.rect = pygame.Rect(0, 0, 100, 150)
+    self.is_hovered = False
+    self.is_dragged = False
+    self.position = (0, 0)
+    self.name = "Attack"
+    self.cost = 1
+    self.description = "Deal 5 damage"
 
   def effect(self):
     pass
