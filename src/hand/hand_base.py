@@ -12,5 +12,11 @@ class HandBase(ABC):
     pass
 
   def draw(self, screen: Surface) -> None:
+    # Dibuja todas las cartas excepto la que se está arrastrando
     for card in self.cards:
-      card.draw(screen)
+      if card is not CardBase._dragging_card:
+        card.draw(screen)
+
+    # Dibuja la carta que se está arrastrando encima de todas
+    if CardBase._dragging_card:
+      CardBase._dragging_card.draw(screen)
