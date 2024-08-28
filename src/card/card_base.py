@@ -2,6 +2,13 @@ from abc import ABC, abstractmethod
 from pygame import SYSTEM_CURSOR_ARROW, SYSTEM_CURSOR_HAND, Rect, Surface, mouse, draw
 
 class CardBase(ABC):
+
+  # global variable to store if a card is being dragged
+  _dragging_card = None 
+
+  # global variable to store if a card is being hovered
+  _hovering_card = None  
+
   @property
   @abstractmethod
   def rect(self) -> Rect:
@@ -45,10 +52,14 @@ class CardBase(ABC):
     self.position = position
 
   def drag(self) -> None:
-    if mouse.get_pressed()[0] and self.rect.collidepoint(mouse.get_pos()):
-      self.is_dragged = True
+    # Verifica si ninguna carta está siendo arrastrada
+    if CardBase._dragging_card is None: 
+      if mouse.get_pressed()[0] and self.rect.collidepoint(mouse.get_pos()):
+        # Establece esta carta como la que se está arrastrando
+        CardBase._dragging_card = self  
+        self.is_dragged = True
 
-    if self.is_dragged:
+    if CardBase._dragging_card is self and self.is_dragged:
       center_pos = (
         mouse.get_pos()[0] - self.rect.width // 2,
         mouse.get_pos()[1] - self.rect.height // 2
@@ -56,19 +67,29 @@ class CardBase(ABC):
       mouse.set_cursor(SYSTEM_CURSOR_HAND)
       self.position = center_pos
 
-    if self.is_dragged and not mouse.get_pressed()[0]:
+    if CardBase._dragging_card is self and not mouse.get_pressed()[0]:
       self.is_dragged = False
+      # Libera la carta actual al soltar el botón del ratón
+      CardBase._dragging_card = None  
+
 
   def hover(self):
     mouse_pos = mouse.get_pos()
-    if self.rect.collidepoint(mouse_pos):
-      if not self.is_hovered:
-        self.is_hovered = True
-        mouse.set_cursor(SYSTEM_CURSOR_HAND)
-    else:
-      if self.is_hovered:
-        self.is_hovered = False
-        mouse.set_cursor(SYSTEM_CURSOR_ARROW)
+    # Verifica si alguna carta ya está en hover o si esta carta es la que está en hover
+    if CardBase._hovering_card is None or CardBase._hovering_card is self:
+      if self.rect.collidepoint(mouse_pos):
+        if not self.is_hovered:
+          self.is_hovered = True
+          mouse.set_cursor(SYSTEM_CURSOR_HAND)
+          # Establece esta carta como la que está en hover
+          CardBase._hovering_card = self  
+      else:
+        if self.is_hovered:
+          self.is_hovered = False
+          mouse.set_cursor(SYSTEM_CURSOR_ARROW)
+          # Libera la carta en hover
+          CardBase._hovering_card = None  
+
 
   def draw(self, screen: Surface):
     self.hover()
