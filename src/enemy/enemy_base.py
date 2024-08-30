@@ -11,3 +11,8 @@ class EnemyBase(ABC):
   @abstractmethod
   def damage(self)->int:
     pass
+
+  @property
+  @abstractmethod
+  def position(self)->tuple[int,int]:
+    pass
