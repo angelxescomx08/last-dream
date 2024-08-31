@@ -1,4 +1,5 @@
 import pygame
+from src.enemy.enemies.enemy_basic import EnemyBasic
 from src.hand.hand import Hand
 from src.card.cards.card_1 import AttackCard
 
@@ -7,6 +8,7 @@ class Game:
   screen: pygame.Surface
   clock: pygame.time.Clock
   running: bool
+  current_frame: int
 
   def __init__(self):
     self.pygame = pygame
@@ -18,6 +20,7 @@ class Game:
 
   def run(self):
     hand = Hand([AttackCard(self.screen), AttackCard(self.screen)])
+    enemy = EnemyBasic((200, 200))
     while self.running:
       self.clock.tick(60)
       for event in self.pygame.event.get():
@@ -26,5 +29,6 @@ class Game:
       self.pygame.display.update()
       self.screen.fill((0, 0, 0))
       hand.draw(self.screen)
+      enemy.update(self.screen)
     self.pygame.quit()
     quit()
