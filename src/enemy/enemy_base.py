@@ -1,9 +1,10 @@
 import pygame
-import os
 from typing import List, Tuple
 from abc import ABC, abstractmethod
 
 class EnemyBase(ABC):
+  def __init__(self, flipped: bool = False):
+    self._flipped = flipped
 
   @property
   @abstractmethod
@@ -27,11 +28,21 @@ class EnemyBase(ABC):
 
   @property
   @abstractmethod
+  def frame_rate(self) -> int:
+    pass
+
+  @property
+  @abstractmethod
   def sprites(self) -> List[pygame.Surface]:
     pass
 
+  @property
+  @abstractmethod
+  def last_update(self) -> int:
+    pass
+
   @staticmethod
-  def load_sprite(image_path: str, sprite_size: Tuple[int, int], grid_size: Tuple[int, int], iterate_all: bool = True) -> List[pygame.Surface]:
+  def load_sprite(image_path: str, sprite_size: Tuple[int, int], grid_size: Tuple[int, int], iterate_all: bool = True, flipped: bool = False) -> List[pygame.Surface]:
     # Cargar la imagen
     sprite_sheet = pygame.image.load(image_path).convert_alpha()
     sheet_width, sheet_height = sprite_sheet.get_size()
@@ -51,17 +62,33 @@ class EnemyBase(ABC):
       for col in range(cols):
         if not iterate_all and row > 0:
           break  # Si no se debe iterar por todas las filas, salimos del bucle
-        
+
         # Calcular la posición del cuadro
         x = col * frame_width
         y = row * frame_height
-        
+
         # Verificar que el recorte esté dentro de los límites de la imagen
         if x + frame_width <= sheet_width and y + frame_height <= sheet_height:
           # Recortar el cuadro de la imagen original
           frame = sprite_sheet.subsurface(pygame.Rect(x, y, frame_width, frame_height))
+          # Invertir el cuadro si se requiere
+          if flipped:
+            frame = pygame.transform.flip(frame, True, False)
           sprites.append(frame)
         else:
           raise ValueError("El recorte está fuera de los límites de la imagen.")
-    
+
     return sprites
+
+  def update(self, screen: pygame.Surface):
+    # Obtener el tiempo actual
+    current_time = pygame.time.get_ticks()
+
+    if current_time - self.last_update > self.frame_rate:
+      # Actualizar el tiempo de la última actualización
+      self.last_update = current_time
+      # Cambiar al siguiente cuadro
+      self.current_frame = (self.current_frame + 1) % len(self.sprites)
+
+    # Dibuja el sprite actual en la pantalla
+    screen.blit(self.sprites[self.current_frame], self.position)
