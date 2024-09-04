@@ -1,7 +1,6 @@
 import pygame
+from src.player.players.player_basic import PlayerBasic
 from src.enemy.enemies.enemy_basic import EnemyBasic
-from src.hand.hand import Hand
-from src.card.cards.card_1 import AttackCard
 
 class Game:
   pygame
@@ -19,8 +18,8 @@ class Game:
     self.running = True
 
   def run(self):
-    hand = Hand([AttackCard(self.screen), AttackCard(self.screen)])
-    enemy = EnemyBasic((200, 200))
+    enemy = EnemyBasic((650, 250))
+    player = PlayerBasic((100, 250))
     while self.running:
       self.clock.tick(60)
       for event in self.pygame.event.get():
@@ -28,7 +27,7 @@ class Game:
           self.running = False
       self.pygame.display.update()
       self.screen.fill((0, 0, 0))
-      hand.draw(self.screen)
       enemy.update(self.screen)
+      player.update(self.screen)
     self.pygame.quit()
     quit()
