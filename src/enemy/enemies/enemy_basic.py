@@ -1,9 +1,9 @@
 import pygame
 import os
-from src.enemy.enemy_base import EnemyBase
+from src.game_object.live_character import LiveCharacter
 from typing import List
 
-class EnemyBasic(EnemyBase):
+class EnemyBasic(LiveCharacter):
   health: int = 100
   damage: int = 10
   position: tuple[int, int] = (0, 0)
@@ -31,7 +31,12 @@ class EnemyBasic(EnemyBase):
     sprite_path = os.path.normpath(sprite_path)
 
     # Llamar al método estático load_sprite
-    self.sprites = EnemyBase.load_sprite(
-      sprite_path, (488, 220), (2, 4), iterate_all=True, flipped=True
+    self.sprites = LiveCharacter.load_sprite(
+      sprite_path, 
+      (488, 220), 
+      (2, 4), 
+      iterate_all=True, 
+      flipped=True, 
+      scale_factor=1.3
     )
 

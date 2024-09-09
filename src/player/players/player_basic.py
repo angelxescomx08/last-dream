@@ -3,10 +3,10 @@ import os
 import pygame
 from src.deck.deck import Deck
 from src.hand.hand import Hand
-from src.player.player_base import PlayerBase
+from src.game_object.live_character import LiveCharacter
 from typing import List
 
-class PlayerBasic(PlayerBase):
+class PlayerBasic(LiveCharacter):
   health: int = 100
   position: tuple[int, int] = (0, 0)
   current_frame: int = 0
@@ -15,6 +15,7 @@ class PlayerBasic(PlayerBase):
   last_update: int = 0
   hand: Hand = Hand()
   deck: Deck = Deck()
+  damage: int = 10
 
   def __init__(self, position: tuple[int, int]):
     super().__init__()
@@ -32,10 +33,11 @@ class PlayerBasic(PlayerBase):
     ) 
 
     # Llamar al método estático load_sprite
-    self.sprites = PlayerBase.load_sprite(
+    self.sprites = LiveCharacter.load_sprite(
       sprite_path, 
       (320, 320), 
       (10, 10), 
       iterate_all=True, 
-      flipped=False
+      flipped=False,
+      scale_factor=2
     )

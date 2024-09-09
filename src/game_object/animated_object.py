@@ -8,7 +8,7 @@ class AnimatedObject(GameObjectBase):
 
   position: tuple[int, int] = (0, 0)
   flipped: bool = False
-  size: tuple[int, int] = (0, 0)
+  scale_factor: float = 1.0
 
   @property
   @abstractmethod
@@ -33,7 +33,7 @@ class AnimatedObject(GameObjectBase):
   @staticmethod
   def load_sprite(
     image_path: str, sprite_size: Tuple[int, int], grid_size: Tuple[int, int], 
-    iterate_all: bool = True, flipped: bool = False
+    iterate_all: bool = True, flipped: bool = False, scale_factor: float = 1.0
   ) -> List[pygame.Surface]:
     # Cargar la imagen
     sprite_sheet = pygame.image.load(image_path).convert_alpha()
@@ -69,9 +69,21 @@ class AnimatedObject(GameObjectBase):
           sprites.append(frame)
         else:
           raise ValueError("El recorte está fuera de los límites de la imagen.")
+        
+    sprites = [pygame.transform.scale(sprite, (
+      int(sprite.get_width() * scale_factor), 
+      int(sprite.get_height() * scale_factor),
+    )) for sprite in sprites]
 
     return sprites
  
+  def scale(self, sprites: List[pygame.Surface], scale_factor: float) -> List[pygame.Surface]:
+    # Escalar todos los cuadros del sprite
+    return [pygame.transform.scale(sprite, (
+      int(sprite.get_width() * scale_factor), 
+      int(sprite.get_height() * scale_factor)
+    )) for sprite in sprites]
+
   def update(self, screen: pygame.Surface):
     # Obtener el tiempo actual
     current_time = pygame.time.get_ticks()

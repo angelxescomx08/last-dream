@@ -14,5 +14,5 @@ class GameObjectBase(ABC):
   
   @property
   @abstractmethod
-  def size(self) -> tuple[int, int]:
+  def scale_factor(self) -> float:
     pass
