@@ -30,10 +30,26 @@ class AnimatedObject(GameObjectBase):
   def sprites(self) -> List[pygame.Surface]:
     pass
 
+  def scale(
+    self, 
+    sprites: List[pygame.Surface], 
+    scale_factor: float
+  ) -> List[pygame.Surface]:
+    # Escalar todos los cuadros del sprite
+    return [pygame.transform.scale(sprite, (
+      int(sprite.get_width() * scale_factor), 
+      int(sprite.get_height() * scale_factor)
+    )) for sprite in sprites]
+
   @staticmethod
   def load_sprite(
-    image_path: str, sprite_size: Tuple[int, int], grid_size: Tuple[int, int], 
-    iterate_all: bool = True, flipped: bool = False, scale_factor: float = 1.0
+    image_path: str, 
+    sprite_size: Tuple[int, int], 
+    grid_size: Tuple[int, int],
+    row_to_animate: int = 0,
+    iterate_all: bool = True, 
+    flipped: bool = False, 
+    scale_factor: float = 1.0
   ) -> List[pygame.Surface]:
     # Cargar la imagen
     sprite_sheet = pygame.image.load(image_path).convert_alpha()
@@ -47,14 +63,18 @@ class AnimatedObject(GameObjectBase):
     frame_width = total_width // cols
     frame_height = total_height // rows
 
+    # Asegúrate de que los tamaños calculados no sean mayores que la imagen
+    if frame_width > sheet_width or frame_height > sheet_height:
+      raise ValueError("El tamaño del cuadro excede el tamaño de la imagen.")
+
     # Lista para almacenar los cuadros individuales del sprite
     sprites = []
 
-    for row in range(rows):
-      for col in range(cols):
-        if not iterate_all and row > 0:
-          break  # Si no se debe iterar por todas las filas, salimos del bucle
+    # Si iterate_all es True, iteramos por todas las filas, de lo contrario solo por row_to_animate
+    rows_to_iterate = range(rows) if iterate_all else [row_to_animate]
 
+    for row in rows_to_iterate:
+      for col in range(cols):
         # Calcular la posición del cuadro
         x = col * frame_width
         y = row * frame_height
@@ -69,20 +89,19 @@ class AnimatedObject(GameObjectBase):
           sprites.append(frame)
         else:
           raise ValueError("El recorte está fuera de los límites de la imagen.")
-        
+      
+    # Asegúrate de que el factor de escala sea válido
+    if scale_factor <= 0:
+      raise ValueError("El factor de escala debe ser mayor que 0.")
+    
+    # Escalar los sprites si es necesario
     sprites = [pygame.transform.scale(sprite, (
       int(sprite.get_width() * scale_factor), 
       int(sprite.get_height() * scale_factor),
     )) for sprite in sprites]
 
     return sprites
- 
-  def scale(self, sprites: List[pygame.Surface], scale_factor: float) -> List[pygame.Surface]:
-    # Escalar todos los cuadros del sprite
-    return [pygame.transform.scale(sprite, (
-      int(sprite.get_width() * scale_factor), 
-      int(sprite.get_height() * scale_factor)
-    )) for sprite in sprites]
+
 
   def update(self, screen: pygame.Surface):
     # Obtener el tiempo actual

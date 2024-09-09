@@ -1,4 +1,3 @@
-
 import os
 import pygame
 from src.deck.deck import Deck
@@ -37,7 +36,8 @@ class PlayerBasic(LiveCharacter):
       sprite_path, 
       (320, 320), 
       (10, 10), 
-      iterate_all=True, 
+      row_to_animate=0,
+      iterate_all=False, 
       flipped=False,
       scale_factor=2
     )
