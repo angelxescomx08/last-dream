@@ -7,7 +7,22 @@ class CardBase(ABC):
   _dragging_card = None 
 
   # global variable to store if a card is being hovered
-  _hovering_card = None  
+  _hovering_card = None 
+  
+  @property
+  @abstractmethod
+  def initial_position(self) -> tuple[int, int]:
+    pass
+  
+  @property
+  @abstractmethod
+  def position(self) -> tuple[int, int]:
+    pass
+
+  @position.setter
+  @abstractmethod
+  def position(self, value: tuple[int, int]):
+    pass
 
   @property
   @abstractmethod
@@ -34,22 +49,9 @@ class CardBase(ABC):
   def is_dragged(self, value: bool):
     pass
 
-  @property
-  @abstractmethod
-  def position(self) -> tuple[int, int]:
-    pass
-
-  @position.setter
-  @abstractmethod
-  def position(self, value: tuple[int, int]):
-    pass
-
   @abstractmethod
   def play(self) -> None:
     pass
-
-  def set_position(self, position: tuple[int, int]) -> None:
-    self.position = position
 
   def drag(self) -> None:
     # Verifica si ninguna carta está siendo arrastrada
@@ -70,7 +72,8 @@ class CardBase(ABC):
     if CardBase._dragging_card is self and not mouse.get_pressed()[0]:
       self.is_dragged = False
       # Libera la carta actual al soltar el botón del ratón
-      CardBase._dragging_card = None  
+      CardBase._dragging_card = None
+      self.position = self.initial_position
 
 
   def hover(self):

@@ -1,5 +1,6 @@
 import os
 import pygame
+from src.card.cards.card_1 import AttackCard
 from src.deck.deck import Deck
 from src.hand.hand import Hand
 from src.game_object.live_character import LiveCharacter
@@ -41,3 +42,12 @@ class PlayerBasic(LiveCharacter):
       flipped=False,
       scale_factor=2
     )
+    
+    cards = [AttackCard(pygame.display.get_surface()) for _ in range(5)]
+    
+    self.hand = Hand(cards)
+    
+  def update(self, screen: pygame.Surface):
+    # Actualizar el sprite actual
+    super().update(screen)
+    self.hand.draw(screen)
