@@ -54,7 +54,7 @@ class CardBase(ABC):
     pass
 
   @abstractmethod
-  def effect(self, player: LiveCharacter, enemies: LiveCharacter) -> None:
+  def effect(self) -> None:
     pass
 
   def drag(self) -> None:
