@@ -1,7 +1,11 @@
 from abc import ABC, abstractmethod
 from pygame import SYSTEM_CURSOR_ARROW, SYSTEM_CURSOR_HAND, Rect, Surface, mouse, draw
+from src.game_object.live_character import LiveCharacter
 
 class CardBase(ABC):
+
+  # maximun range that a card can be dragged
+  MAX_DRAG_RANGE = 100
 
   # global variable to store if a card is being dragged
   _dragging_card = None 
@@ -50,7 +54,7 @@ class CardBase(ABC):
     pass
 
   @abstractmethod
-  def play(self) -> None:
+  def effect(self, player: LiveCharacter, enemies: LiveCharacter) -> None:
     pass
 
   def drag(self) -> None:
@@ -66,13 +70,25 @@ class CardBase(ABC):
         mouse.get_pos()[0] - self.rect.width // 2,
         mouse.get_pos()[1] - self.rect.height // 2
       )
+      
+      # Limita la posición de la carta dentro del rango máximo
+      max_x = min(max(center_pos[0], self.initial_position[0] - self.MAX_DRAG_RANGE), self.initial_position[0] + self.MAX_DRAG_RANGE)
+      max_y = min(max(center_pos[1], self.initial_position[1] - self.MAX_DRAG_RANGE), self.initial_position[1] + self.MAX_DRAG_RANGE)
+      self.position = (max_x, max_y)
+      
       mouse.set_cursor(SYSTEM_CURSOR_HAND)
-      self.position = center_pos
 
     if CardBase._dragging_card is self and not mouse.get_pressed()[0]:
       self.is_dragged = False
       # Libera la carta actual al soltar el botón del ratón
       CardBase._dragging_card = None
+      
+      # Verifica si la carta está dentro del rango máximo y ejecuta una acción si es así
+      if (self.initial_position[0] - self.MAX_DRAG_RANGE <= self.position[0] <= self.initial_position[0] + self.MAX_DRAG_RANGE and
+          self.initial_position[1] - self.MAX_DRAG_RANGE <= self.position[1] <= self.initial_position[1] + self.MAX_DRAG_RANGE):
+        self.effect()
+      
+      # Restaura la posición inicial si no se realiza ninguna acción
       self.position = self.initial_position
 
 
@@ -98,6 +114,6 @@ class CardBase(ABC):
     self.hover()
     self.drag()
 
-    color = (255, 255, 255) if not self.is_hovered else (200, 200, 200)
+    color = (200, 200, 200) if self.is_hovered or self.is_dragged else  (255, 255, 255)
     self.rect.topleft = self.position
     draw.rect(screen, color, self.rect)

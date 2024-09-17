@@ -26,6 +26,3 @@ class AttackCard(CardBase):
 
   def effect(self):
     pass
-
-  def play(self):
-    pass
