@@ -120,5 +120,5 @@ class AnimatedObject(GameObjectBase):
 
     # Dibuja el sprite actual en la pantalla
     #screen.blit(self.sprites[self.current_frame], self.position)
+    pygame.draw.rect(screen, (0, 255, 0), self.rect)
     screen.blit(self.sprites[self.current_frame], self.rect.topleft)
-    #pygame.draw.rect(screen, (0, 255, 0), self.rect)
