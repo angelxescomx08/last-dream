@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+import pygame
+
 class GameObjectBase(ABC):
   
   @property
@@ -15,4 +17,9 @@ class GameObjectBase(ABC):
   @property
   @abstractmethod
   def scale_factor(self) -> float:
+    pass
+
+  @property
+  @abstractmethod
+  def rect(self) -> pygame.Rect:
     pass

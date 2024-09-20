@@ -72,7 +72,7 @@ class CardBase(ABC):
       )
       
       # Limita la posición de la carta dentro del rango máximo
-      max_x = min(max(center_pos[0], self.initial_position[0] - self.MAX_DRAG_RANGE), self.initial_position[0] + self.MAX_DRAG_RANGE)
+      max_x = self.initial_position[0]
       max_y = min(max(center_pos[1], self.initial_position[1] - self.MAX_DRAG_RANGE), self.initial_position[1] + self.MAX_DRAG_RANGE)
       self.position = (max_x, max_y)
       

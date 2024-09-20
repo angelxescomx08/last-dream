@@ -9,6 +9,7 @@ class AnimatedObject(GameObjectBase):
   position: tuple[int, int] = (0, 0)
   flipped: bool = False
   scale_factor: float = 1.0
+  rect = pygame.Rect(0, 0, 0, 0)
 
   @property
   @abstractmethod
@@ -35,14 +36,21 @@ class AnimatedObject(GameObjectBase):
     sprites: List[pygame.Surface], 
     scale_factor: float
   ) -> List[pygame.Surface]:
+    if len(sprites) > 0:
+      self.rect = pygame.Rect(
+        self.position[0],
+        self.position[1],
+        int(sprites[0].get_width() * scale_factor),
+        int(sprites[0].get_height() * scale_factor),
+      )
     # Escalar todos los cuadros del sprite
     return [pygame.transform.scale(sprite, (
       int(sprite.get_width() * scale_factor), 
       int(sprite.get_height() * scale_factor)
     )) for sprite in sprites]
 
-  @staticmethod
   def load_sprite(
+    self,
     image_path: str, 
     sprite_size: Tuple[int, int], 
     grid_size: Tuple[int, int],
@@ -95,10 +103,7 @@ class AnimatedObject(GameObjectBase):
       raise ValueError("El factor de escala debe ser mayor que 0.")
     
     # Escalar los sprites si es necesario
-    sprites = [pygame.transform.scale(sprite, (
-      int(sprite.get_width() * scale_factor), 
-      int(sprite.get_height() * scale_factor),
-    )) for sprite in sprites]
+    sprites = self.scale(sprites, scale_factor)
 
     return sprites
 
@@ -114,4 +119,6 @@ class AnimatedObject(GameObjectBase):
       self.current_frame = (self.current_frame + 1) % len(self.sprites)
 
     # Dibuja el sprite actual en la pantalla
-    screen.blit(self.sprites[self.current_frame], self.position)
+    #screen.blit(self.sprites[self.current_frame], self.position)
+    screen.blit(self.sprites[self.current_frame], self.rect.topleft)
+    #pygame.draw.rect(screen, (0, 255, 0), self.rect)

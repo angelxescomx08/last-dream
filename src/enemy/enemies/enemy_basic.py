@@ -31,7 +31,7 @@ class EnemyBasic(LiveCharacter):
     sprite_path = os.path.normpath(sprite_path)
 
     # Llamar al método estático load_sprite
-    self.sprites = LiveCharacter.load_sprite(
+    self.sprites = self.load_sprite(
       sprite_path, 
       (488, 220), 
       (2, 4), 

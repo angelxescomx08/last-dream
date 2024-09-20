@@ -1,6 +1,8 @@
+from typing import List
 import pygame
 from src.player.players.player_basic import PlayerBasic
 from src.enemy.enemies.enemy_basic import EnemyBasic
+from src.game_object.live_character import LiveCharacter
 
 class Game:
   pygame
@@ -8,6 +10,9 @@ class Game:
   clock: pygame.time.Clock
   running: bool
   current_frame: int
+
+  player: LiveCharacter = None
+  enemies: List[LiveCharacter] = []
 
   def __init__(self):
     self.pygame = pygame
@@ -17,9 +22,14 @@ class Game:
     self.clock = self.pygame.time.Clock()
     self.running = True
 
+    self.player = PlayerBasic((100, 250))
+    self.enemies = [
+      EnemyBasic((650, 200)),
+      EnemyBasic((450, 200)),
+    ]
+    self.player.enemies = self.enemies
+
   def run(self):
-    enemy = EnemyBasic((650, 250))
-    player = PlayerBasic((100, 250))
     while self.running:
       self.clock.tick(60)
       for event in self.pygame.event.get():
@@ -27,7 +37,8 @@ class Game:
           self.running = False
       self.pygame.display.update()
       self.screen.fill((0, 0, 0))
-      enemy.update(self.screen)
-      player.update(self.screen)
+      for enemy in self.enemies:
+        enemy.update(self.screen)
+      self.player.update(self.screen)
     self.pygame.quit()
     quit()
