@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import List
 from pygame import SYSTEM_CURSOR_ARROW, SYSTEM_CURSOR_HAND, Rect, Surface, mouse, draw
 from src.game_object.live_character import LiveCharacter
 
@@ -53,8 +54,28 @@ class CardBase(ABC):
   def is_dragged(self, value: bool):
     pass
 
+  @property
   @abstractmethod
-  def effect(self) -> None:
+  def player(self) -> LiveCharacter:
+    pass
+
+  @property
+  @abstractmethod
+  def enemies(self) -> List[LiveCharacter]:
+    pass
+
+  @property
+  @abstractmethod
+  def targeted_enemy(self) -> LiveCharacter:
+    pass
+
+  @abstractmethod
+  def effect(
+    self, 
+    player: LiveCharacter, 
+    enemies: List[LiveCharacter],
+    targeted_enemy: LiveCharacter
+  ) -> None:
     pass
 
   def drag(self) -> None:
@@ -86,7 +107,11 @@ class CardBase(ABC):
       # Verifica si la carta está dentro del rango máximo y ejecuta una acción si es así
       if (self.initial_position[0] - self.MAX_DRAG_RANGE <= self.position[0] <= self.initial_position[0] + self.MAX_DRAG_RANGE and
           self.initial_position[1] - self.MAX_DRAG_RANGE <= self.position[1] <= self.initial_position[1] + self.MAX_DRAG_RANGE):
-        self.effect()
+        self.effect(
+          self.player,
+          self.enemies,
+          self.targeted_enemy
+        )
       
       # Restaura la posición inicial si no se realiza ninguna acción
       self.position = self.initial_position

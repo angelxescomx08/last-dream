@@ -1,5 +1,7 @@
+from typing import List
 import pygame
 from src.card.card_base import CardBase
+from src.game_object.live_character import LiveCharacter
 
 class AttackCard(CardBase):
   screen: pygame.Surface
@@ -12,7 +14,18 @@ class AttackCard(CardBase):
   cost: int = 1
   description: str = "Deal 5 damage"
 
-  def __init__(self, screen: pygame.Surface, position: tuple[int,int] = (0, 0)):
+  player: LiveCharacter = None
+  enemies: List[LiveCharacter] = []
+  targeted_enemy: LiveCharacter = None
+
+  def __init__(
+    self, 
+    screen: pygame.Surface, 
+    position: tuple[int,int] = (0, 0),
+    player: LiveCharacter = None,
+    enemies: List[LiveCharacter] = [],
+    targeted_enemy: LiveCharacter = None
+  ):
     super().__init__()
     self.screen = screen
     self.rect = pygame.Rect(0, 0, 100, 150)
@@ -23,6 +36,20 @@ class AttackCard(CardBase):
     self.name = "Attack"
     self.cost = 1
     self.description = "Deal 5 damage"
+    self.player = player
+    self.enemies = enemies
+    self.targeted_enemy = targeted_enemy
 
-  def effect(self):
-    pass
+  def effect(
+    self, 
+    player: LiveCharacter, 
+    enemies: List[LiveCharacter],
+    targeted_enemy: LiveCharacter
+  ):
+    # if targeted_enemy:
+    #   targeted_enemy.health -= player.damage+5
+    for enemy in enemies:
+      enemy.health -= player.damage+5
+      print(f"Enemy health: {enemy.health}")
+    
+    

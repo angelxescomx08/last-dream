@@ -22,12 +22,11 @@ class Game:
     self.clock = self.pygame.time.Clock()
     self.running = True
 
-    self.player = PlayerBasic((100, 250))
     self.enemies = [
       EnemyBasic((650, 200)),
       EnemyBasic((450, 200)),
     ]
-    self.player.enemies = self.enemies
+    self.player = PlayerBasic((100, 250), self.enemies)
 
   def run(self):
     while self.running:

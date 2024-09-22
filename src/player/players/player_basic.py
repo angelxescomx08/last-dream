@@ -1,12 +1,13 @@
 import os
 import pygame
+from src.player.player_base import PlayerBase
 from src.card.cards.card_1 import AttackCard
 from src.deck.deck import Deck
 from src.hand.hand import Hand
 from src.game_object.live_character import LiveCharacter
 from typing import List
 
-class PlayerBasic(LiveCharacter):
+class PlayerBasic(PlayerBase):
   health: int = 100
   max_health: int = 100
   position: tuple[int, int] = (0, 0)
@@ -21,7 +22,11 @@ class PlayerBasic(LiveCharacter):
   enemies: List[LiveCharacter] = []
   targeted_enemy: LiveCharacter = None
 
-  def __init__(self, position: tuple[int, int]):
+  def __init__(
+    self, 
+    position: tuple[int, int], 
+    enemies: List[LiveCharacter] = []
+  ):
     super().__init__()
     self.position = position
     # Tiempo de la última actualización
@@ -47,20 +52,18 @@ class PlayerBasic(LiveCharacter):
       scale_factor=2
     )
     
-    cards = [AttackCard(pygame.display.get_surface()) for _ in range(5)]
+    cards = [
+      AttackCard(
+        pygame.display.get_surface(),
+        position=(0,0),
+        player=self,
+        enemies=self.enemies,
+        targeted_enemy=self.targeted_enemy
+      ) 
+      for _ in range(5)
+    ]
     
     self.hand = Hand(cards)
-
-  def target_enemy(self):
-    if not pygame.mouse.get_pressed()[0]:
-      return
-    mouse_pos = pygame.mouse.get_pos()
-    for enemy in self.enemies:
-      if enemy.rect.collidepoint(mouse_pos):
-        print("Enemy targeted")
-        self.targeted_enemy = enemy
-      else:
-        self.targeted_enemy = None
     
   def update(self, screen: pygame.Surface):
     # Actualizar el sprite actual
