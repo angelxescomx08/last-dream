@@ -48,6 +48,9 @@ class AttackCard(CardBase):
   ):
     # if targeted_enemy:
     #   targeted_enemy.health -= player.damage+5
+    print(player)
+    print(enemies)
+    print(targeted_enemy)
     for enemy in enemies:
       enemy.health -= player.damage+5
       print(f"Enemy health: {enemy.health}")

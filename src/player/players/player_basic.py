@@ -52,6 +52,8 @@ class PlayerBasic(PlayerBase):
       scale_factor=2
     )
     
+    self.enemies = enemies
+    
     cards = [
       AttackCard(
         pygame.display.get_surface(),
