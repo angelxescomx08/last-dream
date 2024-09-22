@@ -5,6 +5,7 @@ from typing import List
 
 class EnemyBasic(LiveCharacter):
   health: int = 100
+  max_health: int = 100
   damage: int = 10
   position: tuple[int, int] = (0, 0)
   current_frame: int = 0

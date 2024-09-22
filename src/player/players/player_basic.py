@@ -8,6 +8,7 @@ from typing import List
 
 class PlayerBasic(LiveCharacter):
   health: int = 100
+  max_health: int = 100
   position: tuple[int, int] = (0, 0)
   current_frame: int = 0
   frame_rate: int = 100
