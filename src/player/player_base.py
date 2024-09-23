@@ -16,11 +16,10 @@ class PlayerBase(LiveCharacter):
     pass
 
   def target_enemy(self):
-    if not pygame.mouse.get_pressed()[0]:
-      return
     mouse_pos = pygame.mouse.get_pos()
     for enemy in self.enemies:
       if enemy.rect.collidepoint(mouse_pos):
         self.targeted_enemy = enemy
+        # print(f"Targeted enemy: {self.targeted_enemy}")
       else:
         self.targeted_enemy = None
