@@ -38,3 +38,8 @@ class PlayerBase(LiveCharacter):
         self.targeted_enemy = None
     for card in self.hand.cards:
       card.targeted_enemy = self.targeted_enemy
+
+  def update(self, screen: pygame.Surface):
+    self.target_enemy()
+    super().update(screen)
+    self.hand.draw(screen)

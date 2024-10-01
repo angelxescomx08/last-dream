@@ -66,10 +66,3 @@ class PlayerBasic(PlayerBase):
     ]
     
     self.hand = Hand(cards)
-    
-  def update(self, screen: pygame.Surface):
-    # Actualizar el sprite actual
-    print(self.targeted_enemy)
-    self.target_enemy()
-    super().update(screen)
-    self.hand.draw(screen)
