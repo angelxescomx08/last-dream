@@ -4,6 +4,7 @@ from src.player.player_base import PlayerBase
 from src.card.cards.card_1 import AttackCard
 from src.deck.deck import Deck
 from src.hand.hand import Hand
+from src.piles.pile.pile import Pile
 from src.game_object.live_character import LiveCharacter
 from typing import List
 
@@ -17,6 +18,8 @@ class PlayerBasic(PlayerBase):
   last_update: int = 0
   hand: Hand = Hand()
   deck: Deck = Deck()
+  draw_pile: Pile = Pile()
+  discard_pile: Pile = Pile()
   damage: int = 10
 
   enemies: List[LiveCharacter] = []

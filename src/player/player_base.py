@@ -4,6 +4,7 @@ import pygame
 from src.game_object.live_character import LiveCharacter
 from src.deck.deck import Deck
 from src.hand.hand import Hand
+from src.piles.pile.pile import Pile
 
 class PlayerBase(LiveCharacter):
   @property
@@ -14,6 +15,16 @@ class PlayerBase(LiveCharacter):
   @property
   @abstractmethod
   def deck(self) -> Deck:
+    pass
+
+  @property
+  @abstractmethod
+  def draw_pile(self) -> Pile:
+    pass
+  
+  @property
+  @abstractmethod
+  def discard_pile(self) -> Pile:
     pass
 
   @property
