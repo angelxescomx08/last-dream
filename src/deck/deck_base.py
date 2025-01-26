@@ -6,7 +6,7 @@ from card.card_base import CardBase
 
 class DeckBase(ABC):
 
-  @property
-  @abstractmethod
-  def cards(self) -> List[CardBase]:
-    pass
+    @property
+    @abstractmethod
+    def cards(self) -> List[CardBase]:
+        pass

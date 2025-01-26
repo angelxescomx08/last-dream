@@ -6,51 +6,52 @@ from src.deck.deck import Deck
 from src.hand.hand import Hand
 from src.piles.pile.pile import Pile
 
+
 class PlayerBase(LiveCharacter):
-  @property
-  @abstractmethod
-  def hand(self) -> Hand:
-    pass
+    @property
+    @abstractmethod
+    def hand(self) -> Hand:
+        pass
 
-  @property
-  @abstractmethod
-  def deck(self) -> Deck:
-    pass
+    @property
+    @abstractmethod
+    def deck(self) -> Deck:
+        pass
 
-  @property
-  @abstractmethod
-  def draw_pile(self) -> Pile:
-    pass
-  
-  @property
-  @abstractmethod
-  def discard_pile(self) -> Pile:
-    pass
+    @property
+    @abstractmethod
+    def draw_pile(self) -> Pile:
+        pass
 
-  @property
-  @abstractmethod
-  def enemies(self) -> List[LiveCharacter]:
-    pass
+    @property
+    @abstractmethod
+    def discard_pile(self) -> Pile:
+        pass
 
-  @property
-  @abstractmethod
-  def targeted_enemy(self) -> LiveCharacter:
-    pass
+    @property
+    @abstractmethod
+    def enemies(self) -> List[LiveCharacter]:
+        pass
 
-  def target_enemy(self):
-    mouse_pos = pygame.mouse.get_pos()
-    if not pygame.mouse.get_pressed()[0]:
-      return
-    for enemy in self.enemies:
-      if enemy.rect.collidepoint(mouse_pos):
-        self.targeted_enemy = enemy
-        break
-      else:
-        self.targeted_enemy = None
-    for card in self.hand.cards:
-      card.targeted_enemy = self.targeted_enemy
+    @property
+    @abstractmethod
+    def targeted_enemy(self) -> LiveCharacter:
+        pass
 
-  def update(self, screen: pygame.Surface):
-    self.target_enemy()
-    super().update(screen)
-    self.hand.draw(screen)
+    def target_enemy(self):
+        mouse_pos = pygame.mouse.get_pos()
+        if not pygame.mouse.get_pressed()[0]:
+            return
+        for enemy in self.enemies:
+            if enemy.rect.collidepoint(mouse_pos):
+                self.targeted_enemy = enemy
+                break
+            else:
+                self.targeted_enemy = None
+        for card in self.hand.cards:
+            card.targeted_enemy = self.targeted_enemy
+
+    def update(self, screen: pygame.Surface):
+        self.target_enemy()
+        super().update(screen)
+        self.hand.draw(screen)
