@@ -52,6 +52,13 @@ Se puede usar nodemon para reiniciar la app automáticamente cada vez que se gua
 nodemon main.py
 ```
 
+# Congelando el proyecto
+Para congelar el proyecto, puedes utilizar el siguiente comando:
+
+```bash
+pip freeze > requirements.txt
+```
+
 # Estructura del proyecto
 
 ```
