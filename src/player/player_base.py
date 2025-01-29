@@ -54,4 +54,6 @@ class PlayerBase(LiveCharacter):
     def update(self, screen: pygame.Surface):
         self.target_enemy()
         super().update(screen)
+        self.draw_pile.draw_icon_pile(screen, 0, 450)
+        self.discard_pile.draw_icon_pile(screen, 750, 450)
         self.hand.draw(screen)
